@@ -1,4 +1,5 @@
 const Payment = require('../models/payment.model.js');
+const messageQueueSender = require('../../messageQueueSender.js');
 
 exports.createPayment = async (req, res) => {
     // validate request
@@ -26,7 +27,16 @@ exports.createPayment = async (req, res) => {
         });
     }
 
+    /**
+     * This is needed else err
+     * TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer,
+     *  ArrayBuffer, or Array or an Array-like Object. Received an instance of Object
+     */
+    const dataToSend = {customerId, orderId, productId, amount};
+    const covnertedToArrayLikeObject = JSON.stringify(dataToSend);
+
     // pubish to RabbitMQ
+    messageQueueSender.sendMessage(covnertedToArrayLikeObject);
 
     return res.status(201).send({
         success: true,
