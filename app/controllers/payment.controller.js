@@ -35,13 +35,10 @@ exports.createPayment = async (req, res) => {
      * TypeError [ERR_INVALID_ARG_TYPE]: The first argument must be of type string or an instance of Buffer,
      *  ArrayBuffer, or Array or an Array-like Object. Received an instance of Object
      */
-    const dataToSend = {customerId, orderId, productId, amount};
-    const covnertedToArrayLikeObject = JSON.stringify(dataToSend);
-
-    console.log('data', paymentSaved);
+    const dataToSend = JSON.stringify({customerId, orderId, productId, amount});
 
     // // pubish to RabbitMQ
-    // messageQueueSender.sendMessage(covnertedToArrayLikeObject);
+    messageQueueSender.sendMessage(dataToSend);
 
     return res.status(201).send({
         success: true,

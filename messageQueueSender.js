@@ -27,7 +27,7 @@ exports.sendMessage = (message) => {
             });
 
             channel.sendToQueue(messageQueue.queue, Buffer.from(message));
-            console.log(`${message} sent`);
+            console.log(`${message} sent----------------`);
         });
 
         setTimeout(() => {
