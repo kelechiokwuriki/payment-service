@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  payment-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    container_name: payment-service
+    # links:
+    #   - payment-service-db
+  payment-service-db:
+    image: mongo
+    ports:
+      - "27018:27017"
+    container_name: payment-service-db
+    volumes:
+      - ./db/:/data/db
+
+networks:
+  default:
+    external: true
+    name: e-commerce-app

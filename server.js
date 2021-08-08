@@ -17,6 +17,10 @@ mongoose.connect(dbConfig.url, {
     process.exit();
 });
 
+app.get('/', () => {
+    console.log('hel');
+})
+
 require('./app/routes/payment.routes.js')(app);
 
 app.listen(5000, () => {

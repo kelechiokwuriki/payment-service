@@ -2,6 +2,8 @@ const Payment = require('../models/payment.model.js');
 const messageQueueSender = require('../../messageQueueSender.js');
 
 exports.createPayment = async (req, res) => {
+        console.log(req.body);
+
     // validate request
     if (!req.body.customerId || !req.body.order || !req.body.amount || !req.body.productId) {
         return res.status(400).send({
@@ -9,6 +11,7 @@ exports.createPayment = async (req, res) => {
             message: 'Bad request. Customer id, order, amount or product id missing.'
         });
     }
+
     const {customerId, order, amount, productId} = req.body;
     const {status: orderStatus, _id: orderId} = order;
 
@@ -35,8 +38,10 @@ exports.createPayment = async (req, res) => {
     const dataToSend = {customerId, orderId, productId, amount};
     const covnertedToArrayLikeObject = JSON.stringify(dataToSend);
 
-    // pubish to RabbitMQ
-    messageQueueSender.sendMessage(covnertedToArrayLikeObject);
+    console.log('data', paymentSaved);
+
+    // // pubish to RabbitMQ
+    // messageQueueSender.sendMessage(covnertedToArrayLikeObject);
 
     return res.status(201).send({
         success: true,
