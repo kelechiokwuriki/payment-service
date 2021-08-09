@@ -11,4 +11,6 @@ Ensure the port number in "server.js" is unused.
 
 Navigate to the project directory on your terminal. Run the following commands.
 
-1. docker-compose build && docker-compose up -d
+1. docker network create e-commerce-app 
+2. docker run -it --network=e-commerce-app --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq
+3. docker-compose build && docker-compose up -d
