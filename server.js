@@ -23,7 +23,7 @@ mongoose.connect(dbConfig.url, {
 /**
  *  Consume messages from transaction_created queue
  */
-amqp.connect('amqp://rabbitmq', function(error0, connection) {
+amqp.connect(messageQueue.url, function(error0, connection) {
     if (error0) {
         throw error0;
     }
